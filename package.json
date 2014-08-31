@@ -1,21 +1,22 @@
 {
-  "name": "habadav",
-  "version": "0.0.1",
-  "description": "MFF Personal Site",
-  "author": "Vit Habada",
-  "private": true,
-  "devDependencies": {
-    "grunt": "~0.4.0",
-    "grunt-contrib-cssmin": "*",
-    "grunt-contrib-less": "*",
-    "grunt-contrib-sass": "*",
-    "grunt-contrib-uglify": "*",
-    "grunt-contrib-watch": "*",
-    "grunt-contrib-concat": "*",
-    "grunt-contrib-htmlmin": "*",
-    "grunt-cssc": "*",
-    "grunt-htmlhint": "*",
-    "matchdep": "*",
-    "grunt-uncss": "~0.3.6"
-  }
+    "name": "habadav",
+    "version": "0.0.1",
+    "description": "MFF Personal Site",
+    "author": "Vit Habada",
+    "private": true,
+    "devDependencies": {
+        "grunt": "~0.4.0",
+        "grunt-contrib-cssmin": "*",
+        "grunt-contrib-less": "*",
+        "grunt-contrib-sass": "*",
+        "grunt-contrib-uglify": "*",
+        "grunt-contrib-watch": "*",
+        "grunt-contrib-concat": "*",
+        "grunt-contrib-htmlmin": "*",
+        "grunt-cssc": "*",
+        "grunt-includes": "*",
+        "grunt-htmlhint": "*",
+        "matchdep": "*",
+        "grunt-uncss": "~0.3.6"
+    }
 }

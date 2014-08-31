@@ -23,9 +23,12 @@ var scripts = [
     'dev/js/page.js'
 ];
 
+// will be processed
+var htmlFiles = ['dev/index.html'];
+
 // will be minified
-var htmlFiles = {
-    'build/index.html': 'dev/index.html'
+var htmlMinify = {
+    'build/index.html': 'build/index.html'
 };
 
 
@@ -120,7 +123,15 @@ module.exports = function (grunt) {
                     removeComments: true,
                     collapseWhitespace: true
                 },
-                files: htmlFiles
+                files: htmlMinify
+            }
+        },
+
+        includes: {
+            files: {
+                src: htmlFiles,
+                dest: 'build',
+                flatten: true
             }
         },
 
@@ -143,7 +154,7 @@ module.exports = function (grunt) {
     grunt.registerTask('default', []);
     grunt.registerTask('buildcss', ['less', 'sass', 'concat', 'cssc', 'uncss', 'cssmin']);
     grunt.registerTask('buildjs', ['uglify']);
-    grunt.registerTask('buildhtml', ['htmlmin']);
+    grunt.registerTask('buildhtml', ['includes', 'htmlmin']);
     grunt.registerTask('build', ['buildhtml', 'buildcss', 'buildjs']);
 
 };
