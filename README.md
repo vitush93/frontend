@@ -50,4 +50,9 @@ You can also build CSS/JS/HTML manually:
  grunt buildjs
  ``
 
- In your HTML files just include **master.css** stylesheet and **master.js** script.
+In your HTML files just include **master.css** stylesheet and **master.js** script.
+
+Deployment
+----------
+
+Just copy content of the **build/** folder to your production server.

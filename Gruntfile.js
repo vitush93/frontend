@@ -3,11 +3,17 @@ var lessSheets = {
     'build/css/style.css': 'dev/less/style.less'
 };
 
+// will be compiled
+var sassSheets = {
+    'build/css/screen.css': 'dev/sass/screen.scss'
+};
+
 // will be combined and minified
 var styleSheets = [
     'bower_components/bootstrap/dist/css/bootstrap.css',
     'bower_components/bootstrap/dist/css/bootstrap-theme.css',
-    'build/css/style.css'
+    'build/css/style.css',
+    'build/css/screen.css'
 ];
 
 // will be combined and minified
@@ -77,6 +83,12 @@ module.exports = function (grunt) {
             }
         },
 
+        sass: {
+            build: {
+                files: sassSheets
+            }
+        },
+
         concat: {
             dist: {
                 src: styleSheets,
@@ -115,7 +127,7 @@ module.exports = function (grunt) {
         watch: {
             html: {
                 files: ['dev/*.html'],
-                tasks: ['htmlmin', 'htmlhint']
+                tasks: ['buildhtml', 'htmlhint']
             },
             js: {
                 files: ['dev/js/*.js'],
@@ -129,7 +141,7 @@ module.exports = function (grunt) {
     });
 
     grunt.registerTask('default', []);
-    grunt.registerTask('buildcss', ['less', 'concat', 'cssc', 'uncss', 'cssmin']);
+    grunt.registerTask('buildcss', ['less', 'sass', 'concat', 'cssc', 'uncss', 'cssmin']);
     grunt.registerTask('buildjs', ['uglify']);
     grunt.registerTask('buildhtml', ['htmlmin']);
     grunt.registerTask('build', ['buildhtml', 'buildcss', 'buildjs']);
