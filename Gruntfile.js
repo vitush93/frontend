@@ -117,6 +117,18 @@ module.exports = function (grunt) {
             }
         },
 
+        browserSync: {
+            bsFiles: {
+                src: ['build/css/*.css', 'build/js/*.js', 'build/*.html']
+            },
+            options: {
+                server: {
+                    baseDir: "./build"
+                },
+                watchTask: true
+            }
+        },
+
         'ftp-deploy': {
             build: {
                 auth: {
@@ -130,7 +142,7 @@ module.exports = function (grunt) {
         }
     });
 
-    grunt.registerTask('default', []);
+    grunt.registerTask('default', ['build', 'browserSync', 'watch']);
     grunt.registerTask('buildcss', ['less', 'concat', 'cssc', 'uncss', 'cssmin']);
     grunt.registerTask('buildjs', ['uglify']);
     grunt.registerTask('buildhtml', ['includes', 'htmlmin']);
