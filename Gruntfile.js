@@ -73,6 +73,14 @@ module.exports = function (grunt) {
             }
         },
 
+        autoprefixer: {
+            dist: {
+                files: {
+                    'build/css/master.css': 'build/css/master.css'
+                }
+            }
+        },
+
         uglify: {
             build: {
                 files: {
@@ -143,7 +151,7 @@ module.exports = function (grunt) {
     });
 
     grunt.registerTask('default', ['build', 'browserSync', 'watch']);
-    grunt.registerTask('buildcss', ['less', 'concat', 'cssc', 'uncss', 'cssmin']);
+    grunt.registerTask('buildcss', ['less', 'concat', 'cssc', 'uncss', 'autoprefixer', 'cssmin']);
     grunt.registerTask('buildjs', ['uglify']);
     grunt.registerTask('buildhtml', ['includes', 'htmlmin']);
     grunt.registerTask('build', ['buildhtml', 'buildcss', 'buildjs']);
