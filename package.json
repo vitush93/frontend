@@ -1,6 +1,5 @@
 {
     "name": "frontend-less",
-    "version": "1.0",
     "description": "Frontend skeleton app",
     "author": "Vit Habada",
     "private": true,
@@ -12,6 +11,7 @@
         "grunt-contrib-watch": "*",
         "grunt-contrib-concat": "*",
         "grunt-contrib-htmlmin": "*",
+        "grunt-ftp-deploy": "*",
         "grunt-cssc": "*",
         "grunt-includes": "*",
         "matchdep": "*",

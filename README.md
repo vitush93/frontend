@@ -55,4 +55,5 @@ In your HTML files just include **master.css** stylesheet and **master.js** scri
 Deployment
 ----------
 
-Just copy content of the **build/** folder to your production server.
+- **Manually:** Just copy content of the **build/** folder to your production server.
+- **Using grunt:** Configure your FTP credentials in **.ftppass** JSON file, remote path and server variables in **Gruntfile.js**. Then just run `grunt deploy`. Your project will be built and pushed to the server via FTP automatically.

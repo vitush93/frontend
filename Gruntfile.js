@@ -12,6 +12,10 @@ var scripts = [
     'dev/js/page.js'
 ];
 
+// remote folder on the production server
+var deployServer = 'ftp_server';
+var deployFolder = '/www';
+
 
 // GRUNT CONFIGURATION
 module.exports = function (grunt) {
@@ -111,6 +115,18 @@ module.exports = function (grunt) {
                 files: ['dev/less/*.less', 'dev/css/*.css'],
                 tasks: ['buildcss']
             }
+        },
+
+        'ftp-deploy': {
+            build: {
+                auth: {
+                    host: deployServer,
+                    port: 21,
+                    authKey: 'key'
+                },
+                src: 'build',
+                dest: deployFolder
+            }
         }
     });
 
@@ -119,5 +135,6 @@ module.exports = function (grunt) {
     grunt.registerTask('buildjs', ['uglify']);
     grunt.registerTask('buildhtml', ['includes', 'htmlmin']);
     grunt.registerTask('build', ['buildhtml', 'buildcss', 'buildjs']);
+    grunt.registerTask('deploy', ['build', 'ftp-deploy'])
 
 };
