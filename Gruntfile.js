@@ -92,7 +92,7 @@ module.exports = function (grunt) {
 
         includes: {
             files: {
-                src: ['dev/*html'],
+                src: ['dev/*.html'],
                 dest: 'build',
                 flatten: true
             }
