@@ -1,35 +1,17 @@
-// will be compiled
-var lessSheets = {
-    'build/css/style.css': 'dev/less/style.less'
-};
-
-// will be compiled
-var sassSheets = {
-    'build/css/screen.css': 'dev/sass/screen.scss'
-};
-
-// will be combined and minified
+// will be combined and minified in specific order
 var styleSheets = [
     'bower_components/bootstrap/dist/css/bootstrap.css',
     'bower_components/bootstrap/dist/css/bootstrap-theme.css',
-    'build/css/style.css',
-    'build/css/screen.css'
+    'build/css/less.css',
+    'build/css/sass.css'
 ];
 
-// will be combined and minified
+// will be combined and minified in specific order
 var scripts = [
     'bower_components/jquery/dist/jquery.js',
     'bower_components/bootstrap/dist/js/bootstrap.js',
     'dev/js/page.js'
 ];
-
-// will be processed
-var htmlFiles = ['dev/index.html'];
-
-// will be minified
-var htmlMinify = {
-    'build/index.html': 'build/index.html'
-};
 
 
 // GRUNT CONFIGURATION
@@ -39,23 +21,6 @@ module.exports = function (grunt) {
 
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
-
-        htmlhint: {
-            build: {
-                options: {
-                    'tag-pair': true,
-                    'tagname-lowercase': true,
-                    'attr-lowercase': true,
-                    'attr-value-double-quotes': true,
-                    'doctype-first': true,
-                    'spec-char-escape': true,
-                    'id-unique': true,
-                    'head-script-disabled': true,
-                    'style-disabled': true
-                },
-                src: ['dev/*.html']
-            }
-        },
 
         cssc: {
             build: {
@@ -82,13 +47,17 @@ module.exports = function (grunt) {
 
         less: {
             build: {
-                files: lessSheets
+                files: {
+                    'build/css/less.css': 'dev/less/main.less'
+                }
             }
         },
 
         sass: {
             build: {
-                files: sassSheets
+                files: {
+                    'build/css/sass.css': 'dev/sass/main.scss'
+                }
             }
         },
 
@@ -123,13 +92,16 @@ module.exports = function (grunt) {
                     removeComments: true,
                     collapseWhitespace: true
                 },
-                files: htmlMinify
+                expand: true,
+                cwd: 'build',
+                src: ['**/*.html'],
+                dest: 'build/'
             }
         },
 
         includes: {
             files: {
-                src: htmlFiles,
+                src: ['dev/*html'],
                 dest: 'build',
                 flatten: true
             }
@@ -137,15 +109,15 @@ module.exports = function (grunt) {
 
         watch: {
             html: {
-                files: ['dev/*.html'],
-                tasks: ['buildhtml', 'htmlhint']
+                files: ['dev/*.html', 'dev/partials/*.html'],
+                tasks: ['buildhtml']
             },
             js: {
                 files: ['dev/js/*.js'],
                 tasks: ['buildjs']
             },
             css: {
-                files: ['dev/less/*.less', 'dev/css/*.css'],
+                files: ['dev/less/*.less', 'dev/sass/*.scss', 'dev/css/*.css'],
                 tasks: ['buildcss']
             }
         }
