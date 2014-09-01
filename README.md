@@ -1,5 +1,5 @@
-Frontend skeleton
-=================
+LESS Frontend skeleton
+======================
 
 Dependencies
 ------------

@@ -2,8 +2,7 @@
 var styleSheets = [
     'bower_components/bootstrap/dist/css/bootstrap.css',
     'bower_components/bootstrap/dist/css/bootstrap-theme.css',
-    'build/css/less.css',
-    'build/css/sass.css'
+    'build/css/less.css'
 ];
 
 // will be combined and minified in specific order
@@ -49,14 +48,6 @@ module.exports = function (grunt) {
             build: {
                 files: {
                     'build/css/less.css': 'dev/less/main.less'
-                }
-            }
-        },
-
-        sass: {
-            build: {
-                files: {
-                    'build/css/sass.css': 'dev/sass/main.scss'
                 }
             }
         },
@@ -117,14 +108,14 @@ module.exports = function (grunt) {
                 tasks: ['buildjs']
             },
             css: {
-                files: ['dev/less/*.less', 'dev/sass/*.scss', 'dev/css/*.css'],
+                files: ['dev/less/*.less', 'dev/css/*.css'],
                 tasks: ['buildcss']
             }
         }
     });
 
     grunt.registerTask('default', []);
-    grunt.registerTask('buildcss', ['less', 'sass', 'concat', 'cssc', 'uncss', 'cssmin']);
+    grunt.registerTask('buildcss', ['less', 'concat', 'cssc', 'uncss', 'cssmin']);
     grunt.registerTask('buildjs', ['uglify']);
     grunt.registerTask('buildhtml', ['includes', 'htmlmin']);
     grunt.registerTask('build', ['buildhtml', 'buildcss', 'buildjs']);

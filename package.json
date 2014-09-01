@@ -1,14 +1,13 @@
 {
-    "name": "habadav",
-    "version": "0.0.1",
-    "description": "MFF Personal Site",
+    "name": "frontend-less",
+    "version": "1.0",
+    "description": "Frontend skeleton app",
     "author": "Vit Habada",
     "private": true,
     "devDependencies": {
         "grunt": "~0.4.0",
         "grunt-contrib-cssmin": "*",
         "grunt-contrib-less": "*",
-        "grunt-contrib-sass": "*",
         "grunt-contrib-uglify": "*",
         "grunt-contrib-watch": "*",
         "grunt-contrib-concat": "*",
