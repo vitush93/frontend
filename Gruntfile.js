@@ -21,6 +21,7 @@ var deployFolder = '/www';
 module.exports = function (grunt) {
 
     require("matchdep").filterDev("grunt-*").forEach(grunt.loadNpmTasks);
+    require('time-grunt')(grunt);
 
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),

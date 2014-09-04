@@ -17,6 +17,7 @@
         "grunt-cssc": "*",
         "grunt-includes": "*",
         "matchdep": "*",
-        "grunt-uncss": "~0.3.6"
+        "grunt-uncss": "~0.3.6",
+        "time-grunt": "~1.0.0"
     }
 }
