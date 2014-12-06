@@ -24,13 +24,13 @@ Usage
 
 Just call `grunt` or `grunt default` - it will call the default routine which:
 
-- builds project (compile and minify assets, compose and minify HTML files, ..)
+- builds project (concats assets and compose HTML files, ..)
 - starts local server for *browserSync*
-- starts *watch* to seek for file changes and automatically rebuild project
+- starts *watch* task to seek for file changes and automatically rebuild project
 
-All your sources in **dev/** folder will be processed and placed into **build/** folder. Place your assets like fonts and/or images in **build/** folder.
+All your sources in **dev/** folder will be processed and placed into **build/** folder. Place your assets like fonts and/or images to **build/** folder.
 
-To manually build project run `grunt build`.
+To manually build project run `grunt build`. There is also `grunt release` which, in addition to `grunt build`, compiles and minifies the assets - it is intended and recommended for actual release due to its non-trivial processing time.
 
 You can use watcher manually to automatically build your project on file change using `grunt watch`.
 
@@ -53,5 +53,5 @@ In your HTML files just include **master.css** stylesheet and **master.js** scri
 Deployment
 ----------
 
-- **Manually:** Just run `grunt build` and copy content of the **build/** folder to your production server.
+- **Manually:** Just run `grunt release` and copy contents of the **build/** folder to your production server.
 - **Using grunt:** Configure your FTP credentials in **.ftppass** JSON file, remote path and server variables in **Gruntfile.js**. Then just run `grunt deploy`. Your project will be built and pushed to the server via FTP automatically.

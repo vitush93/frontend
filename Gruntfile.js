@@ -58,9 +58,13 @@ module.exports = function (grunt) {
         },
 
         concat: {
-            dist: {
+            css: {
                 src: styleSheets,
                 dest: 'build/css/master.css'
+            },
+            js: {
+                src: scripts,
+                dest: 'build/js/master.js'
             }
         },
 
@@ -152,10 +156,13 @@ module.exports = function (grunt) {
     });
 
     grunt.registerTask('default', ['build', 'browserSync', 'watch']);
-    grunt.registerTask('buildcss', ['less', 'concat', 'cssc', 'uncss', 'autoprefixer', 'cssmin']);
-    grunt.registerTask('buildjs', ['uglify']);
-    grunt.registerTask('buildhtml', ['includes', 'htmlmin']);
+
+    grunt.registerTask('buildcss', ['less', 'concat:css', 'autoprefixer']);
+    grunt.registerTask('buildjs', ['concat:js']);
+    grunt.registerTask('buildhtml', ['includes']);
+
     grunt.registerTask('build', ['buildhtml', 'buildcss', 'buildjs']);
-    grunt.registerTask('deploy', ['build', 'ftp-deploy'])
+    grunt.registerTask('release', ['buildhtml', 'htmlmin', 'less', 'concat:css', 'cssc', 'uncss', 'autoprefixer', 'cssmin', 'buildjs', 'uglify']);
+    grunt.registerTask('deploy', ['release', 'ftp-deploy']);
 
 };
