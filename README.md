@@ -11,7 +11,7 @@ npm install
 ``
 
 ``
-bower install <jquery/bootstrap/...>
+bower install [jquery/bootstrap/...]
 ``
 
 Configuration
