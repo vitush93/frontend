@@ -2,9 +2,3 @@
 *
 # Except
 !.gitignore
-!.htaccess
-!404.html
-!humans.txt
-!robots.txt
-!images/
-!fonts/

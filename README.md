@@ -1,57 +1,37 @@
-LESS Frontend skeleton
-======================
+# LESS Frontend
 
-Dependencies
-------------
+## Installation and configuration
 
-Install stuff:
+Run `npm install` to download necessary modules.
 
-``
-npm install
-``
+I did not include **bower.json** file, so other dependencies are entirely up to you. This environment comes with Bootstrap and jQuery and that's it.
 
-``
-bower install [jquery/bootstrap/...]
-``
+## Grunt
 
-Configuration
--------------
+For development, run `grunt` which does following for you:
 
-You have to configure your CSS/LESS, JS and HTML files manually in **Gruntfile.js**. The JavaScript variables are pretty self explanatory.
+- compiles your html, css and scripts
+- copies images and fonts to `build/` folder
+- starts *browserSync*
+- starts *watch task*
 
-Usage
------
+To get your production assets run `grunt build` which:
 
-Just call `grunt` or `grunt default` - it will call the default routine which:
+- compiles and minifies your html, css and scripts
 
-- builds project (concats assets and compose HTML files, ..)
-- starts local server for *browserSync*
-- starts *watch* task to seek for file changes and automatically rebuild project
+To use compiled stylesheets and scripts include **master.css** and **master.js** in your html files.
 
-All your sources in **dev/** folder will be processed and placed into **build/** folder. Place your assets like fonts and/or images to **build/** folder.
+## Usage
 
-To manually build project run `grunt build`. There is also `grunt release` which, in addition to `grunt build`, compiles and minifies the assets - it is intended and recommended for actual release due to its non-trivial processing time.
+### HTML
 
-You can use watcher manually to automatically build your project on file change using `grunt watch`.
+You can include HTML file in another HTML file using `include "path/filename.html"`. See `dev/index.html` for typical header/footer example.
 
-You can also build CSS/JS/HTML manually with:
+### JavaScript
 
- ``
- grunt buildhtml
- ``
+In this environment, you can write your scripts in node.js's modular fashion. Browserify will then assemble your application into single `build/js/master.js` file. See `dev/js` scripts for example. `dev/js/main.js` is configured as dependency root for your scripts.
 
- ``
- grunt buildcss
- ``
+### Stylesheets
 
- ``
- grunt buildjs
- ``
+This environment uses LESS as its main CSS preprocessor. Import all your stylesheets in `dev/less/main.less`.
 
-In your HTML files just include **master.css** stylesheet and **master.js** script.
-
-Deployment
-----------
-
-- **Manually:** Just run `grunt release` and copy contents of the **build/** folder to your production server.
-- **Using grunt:** Configure your FTP credentials in **.ftppass** JSON file, remote path and server variables in **Gruntfile.js**. Then just run `grunt deploy`. Your project will be built and pushed to the server via FTP automatically.

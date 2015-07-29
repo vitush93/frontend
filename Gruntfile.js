@@ -1,46 +1,11 @@
-// will be combined and minified in specific order
-var styleSheets = [
-    'bower_components/bootstrap/dist/css/bootstrap.css',
-    'bower_components/bootstrap/dist/css/bootstrap-theme.css',
-    'build/css/less.css'
-];
-
-// will be combined and minified in specific order
-var scripts = [
-    'bower_components/jquery/dist/jquery.js',
-    'bower_components/bootstrap/dist/js/bootstrap.js',
-    'dev/js/page.js'
-];
-
-// remote folder on the production server
-var deployServer = 'ftp_server';
-var deployFolder = '/www';
-
-
-// GRUNT CONFIGURATION
 module.exports = function (grunt) {
 
     require("matchdep").filterDev("grunt-*").forEach(grunt.loadNpmTasks);
     require('time-grunt')(grunt);
 
     grunt.initConfig({
-        pkg: grunt.file.readJSON('package.json'),
 
-        cssc: {
-            build: {
-                options: {
-                    sortSelectors: true,
-                    lineBreaks: true,
-                    sortDeclarations: true,
-                    consolidateViaDeclarations: false,
-                    consolidateViaSelectors: false,
-                    consolidateMediaQueries: false
-                },
-                files: {
-                    'build/css/master.css': 'build/css/master.css'
-                }
-            }
-        },
+        pkg: grunt.file.readJSON('package.json'),
 
         cssmin: {
             build: {
@@ -51,20 +16,12 @@ module.exports = function (grunt) {
 
         less: {
             build: {
+                options: {
+                    paths: 'node_modules/bootstrap/less'
+                },
                 files: {
-                    'build/css/less.css': 'dev/less/main.less'
+                    'build/css/master.css': 'dev/less/main.less'
                 }
-            }
-        },
-
-        concat: {
-            css: {
-                src: styleSheets,
-                dest: 'build/css/master.css'
-            },
-            js: {
-                src: scripts,
-                dest: 'build/js/master.js'
             }
         },
 
@@ -89,7 +46,7 @@ module.exports = function (grunt) {
         uglify: {
             build: {
                 files: {
-                    'build/js/master.js': scripts
+                    'build/js/master.js': 'build/js/master.js'
                 }
             }
         },
@@ -118,15 +75,15 @@ module.exports = function (grunt) {
         watch: {
             html: {
                 files: ['dev/*.html', 'dev/partials/*.html'],
-                tasks: ['buildhtml']
+                tasks: ['includes']
             },
             js: {
                 files: ['dev/js/*.js'],
-                tasks: ['buildjs']
+                tasks: ['browserify']
             },
             css: {
-                files: ['dev/less/*.less', 'dev/css/*.css'],
-                tasks: ['buildcss']
+                files: ['dev/less/**/*.less'],
+                tasks: ['less', 'autoprefixer']
             }
         },
 
@@ -142,27 +99,44 @@ module.exports = function (grunt) {
             }
         },
 
-        'ftp-deploy': {
-            build: {
-                auth: {
-                    host: deployServer,
-                    port: 21,
-                    authKey: 'key'
-                },
-                src: 'build',
-                dest: deployFolder
+        browserify: {
+            dist: {
+                files: {
+                    './build/js/master.js': ['./dev/js/main.js']
+                }
+            }
+        },
+
+        copy: {
+            main: {
+                files: [
+                    {expand: true, cwd: 'dev/', src: ['img/*'], dest: 'build/'},
+                    {expand: true, cwd: 'dev/', src: ['fonts/*'], dest: 'build/'}
+                ]
             }
         }
     });
 
-    grunt.registerTask('default', ['build', 'browserSync', 'watch']);
+    grunt.registerTask('default', [
+        'copy',
+        'includes',
+        'browserify',
+        'less',
+        'autoprefixer',
+        'browserSync',
+        'watch'
+    ]);
 
-    grunt.registerTask('buildcss', ['less', 'concat:css', 'autoprefixer']);
-    grunt.registerTask('buildjs', ['concat:js']);
-    grunt.registerTask('buildhtml', ['includes']);
-
-    grunt.registerTask('build', ['buildhtml', 'buildcss', 'buildjs']);
-    grunt.registerTask('release', ['buildhtml', 'htmlmin', 'less', 'concat:css', 'cssc', 'uncss', 'autoprefixer', 'cssmin', 'buildjs', 'uglify']);
-    grunt.registerTask('deploy', ['release', 'ftp-deploy']);
+    grunt.registerTask('build', [
+        'copy',
+        'includes',
+        'htmlmin',
+        'less',
+        'uncss',
+        'autoprefixer',
+        'cssmin',
+        'browserify',
+        'uglify'
+    ]);
 
 };
