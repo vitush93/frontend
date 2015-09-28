@@ -1,37 +1,37 @@
-# LESS Frontend
+# Frontend
+
+My grunt Handlebars + Browserify scaffolding.
 
 ## Installation and configuration
 
-Run `npm install` to download necessary modules.
-
-I did not include **bower.json** file, so other dependencies are entirely up to you. This environment comes with Bootstrap and jQuery and that's it.
+Run `npm install` to download necessary modules. This will also run `bower install` automatically after all node modules are installed.
 
 ## Grunt
 
-For development, run `grunt` which does following for you:
+Running `grunt` does following for you:
 
-- compiles your html, css and scripts
-- copies images and fonts to `build/` folder
-- starts *browserSync*
-- starts *watch task*
+- compiles sass, scripts and Handlebars templates
+- starts watch task
 
-To get your production assets run `grunt build` which:
+To get your production assets run `grunt release` which:
 
-- compiles and minifies your html, css and scripts
+- compiles and compress css and scripts
 
-To use compiled stylesheets and scripts include **master.css** and **master.js** in your html files.
+To use compiled stylesheets and scripts include **css/master.css** and **js/master.js** in your html files.
 
 ## Usage
 
-### HTML
-
-You can include HTML file in another HTML file using `include "path/filename.html"`. See `dev/index.html` for typical header/footer example.
-
 ### JavaScript
 
-In this environment, you can write your scripts in node.js's modular fashion. Browserify will then assemble your application into single `build/js/master.js` file. See `dev/js` scripts for example. `dev/js/main.js` is configured as dependency root for your scripts.
+In this environment, you can write your scripts in node.js modular fashion. Browserify will then assemble your application into single file: `js/master.js`. `src/js/main.js` is configured as dependency root for your scripts.
+
+To use external scripts with browserify (such as bower_components/ scripts or manually downloaded plugins) without specifying their full path in `require()` function, add their aliases to ``package.json:browser`` section.
+
+### Handlebars Templates
+
+This project comes with precompiled Handlebars templates. All template files in `src/templates` are compiled into `src/js/templates.js` and can be used as a node module. See `src/js/main.js` for example usage.
 
 ### Stylesheets
 
-This environment uses LESS as its main CSS preprocessor. Import all your stylesheets in `dev/less/main.less`.
+This project uses SASS as CSS preprocessor. Import all your stylesheets in `src/scss/main.scss`.
 

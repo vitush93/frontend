@@ -1,36 +1,29 @@
 module.exports = function (grunt) {
 
-    require("matchdep").filterDev("grunt-*").forEach(grunt.loadNpmTasks);
     require('time-grunt')(grunt);
-
     grunt.initConfig({
-
         pkg: grunt.file.readJSON('package.json'),
 
-        cssmin: {
-            build: {
-                src: 'build/css/master.css',
-                dest: 'build/css/master.css'
-            }
-        },
-
-        less: {
-            build: {
+        sass: {
+            options: {
+                includePaths: [
+                    'bower_components/foundation/scss'
+                ]
+            },
+            dev: {
                 options: {
-                    paths: 'node_modules/bootstrap/less'
+                    sourceMap: true
                 },
                 files: {
-                    'build/css/master.css': 'dev/less/main.less'
+                    'css/master.css': 'src/scss/main.scss'
                 }
-            }
-        },
-
-        uncss: {
+            },
             dist: {
-                src: ['build/*.html'],
-                dest: 'build/css/master.css',
                 options: {
-                    report: 'min'
+                    outputStyle: 'compressed'
+                },
+                files: {
+                    'css/master.css': 'src/scss/main.scss'
                 }
             }
         },
@@ -38,105 +31,75 @@ module.exports = function (grunt) {
         autoprefixer: {
             dist: {
                 files: {
-                    'build/css/master.css': 'build/css/master.css'
+                    'css/master.css': 'css/master.css'
                 }
             }
         },
 
         uglify: {
-            build: {
-                files: {
-                    'build/js/master.js': 'build/js/master.js'
-                }
-            }
-        },
-
-        htmlmin: {
             dist: {
-                options: {
-                    removeComments: true,
-                    collapseWhitespace: true
-                },
-                expand: true,
-                cwd: 'build',
-                src: ['**/*.html'],
-                dest: 'build/'
-            }
-        },
-
-        includes: {
-            files: {
-                src: ['dev/*.html'],
-                dest: 'build',
-                flatten: true
-            }
-        },
-
-        watch: {
-            html: {
-                files: ['dev/*.html', 'dev/partials/*.html'],
-                tasks: ['includes']
-            },
-            js: {
-                files: ['dev/js/*.js'],
-                tasks: ['browserify']
-            },
-            css: {
-                files: ['dev/less/**/*.less'],
-                tasks: ['less', 'autoprefixer']
-            }
-        },
-
-        browserSync: {
-            bsFiles: {
-                src: ['build/css/*.css', 'build/js/*.js', 'build/*.html']
-            },
-            options: {
-                server: {
-                    baseDir: "./build"
-                },
-                watchTask: true
+                files: {
+                    'js/master.js': 'js/master.js'
+                }
             }
         },
 
         browserify: {
             dist: {
                 files: {
-                    './build/js/master.js': ['./dev/js/main.js']
+                    './js/master.js': ['./src/js/main.js']
                 }
             }
         },
 
-        copy: {
-            main: {
-                files: [
-                    {expand: true, cwd: 'dev/', src: ['img/*'], dest: 'build/'},
-                    {expand: true, cwd: 'dev/', src: ['fonts/*'], dest: 'build/'}
-                ]
+        handlebars: {
+            compile: {
+                options: {
+                    node: true,
+                    wrapped: true,
+                    namespace: 'App.Templates',
+                    partialsUseNamespace: true,
+                    processName: function (path) {
+                        return path.split('/').pop().split('.')[0];
+                    }
+                },
+                files: {
+                    "src/js/templates.js": "src/templates/**/*.{hbs,handlebars}"
+                }
+            }
+        },
+
+        watch: {
+            grunt: {
+                options: {
+                    reload: true
+                },
+                files: ['Gruntfile.js']
+            },
+            js: {
+                files: ['src/js/**/*.js'],
+                tasks: ['browserify']
+            },
+            sass: {
+                files: ['src/scss/**/*.scss'],
+                tasks: ['sass:dev']
+            },
+            handlebars: {
+                files: ['src/templates/**/*.{hbs,handlebars}'],
+                tasks: ['handlebars']
             }
         }
     });
 
-    grunt.registerTask('default', [
-        'copy',
-        'includes',
-        'browserify',
-        'less',
-        'autoprefixer',
-        'browserSync',
-        'watch'
-    ]);
+    grunt.loadNpmTasks('grunt-browserify');
+    grunt.loadNpmTasks('grunt-sass');
+    grunt.loadNpmTasks('grunt-contrib-watch');
+    grunt.loadNpmTasks('grunt-contrib-handlebars');
+    grunt.loadNpmTasks('grunt-contrib-uglify');
+    grunt.loadNpmTasks('grunt-autoprefixer');
 
-    grunt.registerTask('build', [
-        'copy',
-        'includes',
-        'htmlmin',
-        'less',
-        'uncss',
-        'autoprefixer',
-        'cssmin',
-        'browserify',
-        'uglify'
-    ]);
+    grunt.registerTask('default', ['build', 'watch']);
+    grunt.registerTask('build', ['sass:dev', 'handlebars', 'browserify']);
 
+    grunt.registerTask('release', ['sass:dist', 'autoprefixer', 'handlebars', 'browserify', 'uglify']);
 };
