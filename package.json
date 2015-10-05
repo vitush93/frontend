@@ -21,6 +21,9 @@
     "grunt-contrib-watch": "~0.6.1",
     "grunt-autoprefixer": "~3.0.3",
     "grunt-browserify": "~4.0.1",
-    "time-grunt": "~1.2.1"
+    "time-grunt": "~1.2.1",
+    "grunt-sass": "~1.0",
+    "source-map": "~0.5.1",
+    "grunt-contrib-handlebars": "~0.10.2"
   }
 }
